@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
-import generateToken from '../utils/generateWebToken.js';
+import generatetoken from '../utils/generateWebToken.js';
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -11,7 +11,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       profilePicture: user.profilePicture,
-      token: generateToken(user._id),
+      token: generatetoken(user._id),
     });
   } else {
     res.status(401);
@@ -57,4 +57,4 @@ const getAllUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
-export { authUser, registerUser, getUserById, getAllUsers };
+export { getAllUsers, getUserById, registerUser, authUser };

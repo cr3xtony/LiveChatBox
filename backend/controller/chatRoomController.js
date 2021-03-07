@@ -8,6 +8,7 @@ const createChatRoom = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Chat Room Name Already Exist');
   }
+
   try {
     const chatRoom = await ChatRoom.create({
       name,
@@ -21,7 +22,7 @@ const createChatRoom = asyncHandler(async (req, res) => {
       throw new Error('Invalid Chat Room');
     }
   } catch (error) {
-    res.status(201).json({
+    res.status(400).json({
       message: error.message,
     });
   }
@@ -32,4 +33,4 @@ const getAllChatRoom = asyncHandler(async (req, res) => {
   res.json(chatRoom);
 });
 
-export { createChatRoom, getAllChatRoom };
+export { getAllChatRoom, createChatRoom };

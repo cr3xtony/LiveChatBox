@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
 
 const chatRoomSchema = mongoose.Schema(
   {
@@ -14,5 +13,4 @@ const chatRoomSchema = mongoose.Schema(
 );
 
 const ChatRoom = mongoose.model('ChatRoom', chatRoomSchema);
-
 export default ChatRoom;
