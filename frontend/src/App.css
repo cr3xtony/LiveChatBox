@@ -12,7 +12,7 @@ body {
     rgba(240, 166, 202, 1)
   );
   overflow: hidden;
-  color: white;
+  color: black;
 }
 .container {
   height: 100vh;

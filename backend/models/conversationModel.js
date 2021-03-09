@@ -10,7 +10,6 @@ const conversationSchema = mongoose.Schema(
     chatRoom: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ChatRoom',
-      required: true,
     },
     message: {
       type: String,

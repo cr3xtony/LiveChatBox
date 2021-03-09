@@ -8,9 +8,6 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    require('../models/userModel');
-    require('../models/conversationModel');
-    require('../models/chatRoomModel');
     console.log(`MongoDB connected : ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error ${error.message}`);
