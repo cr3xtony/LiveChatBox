@@ -33,4 +33,9 @@ const getAllChatRoom = asyncHandler(async (req, res) => {
   res.json(chatRoom);
 });
 
-export { getAllChatRoom, createChatRoom };
+const getChatRoomById = asyncHandler(async (req, res) => {
+  const chatRoom = await ChatRoom.findById(req.params.id);
+  res.json(chatRoom);
+});
+
+export { getAllChatRoom, createChatRoom, getChatRoomById };

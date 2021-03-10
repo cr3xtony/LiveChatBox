@@ -35,42 +35,20 @@ const io = new Server(httpServer, {
   },
 });
 
-io.use((socket, next) => {
+io.use(async (socket, next) => {
   try {
     const userId = socket.handshake.query.userId;
 
     socket.userId = userId;
+    const user = await User.findById(socket.userId);
+    socket.userName = user.name;
     next();
   } catch (err) {}
 });
 
-// io.on('connection', (socket) => {
-//   socket.broadcast.emit('message', 'A user has joined the chat');
-//   socket.on('disconnect', () => {
-//     io.emit('message', 'A user just disconnected');
-//   });
-
-//   socket.on('chatMessage', async (newMessage, chatRoomId) => {
-//     if (newMessage) {
-//       const user = await User.findById(socket.userId);
-
-//       const message = new Conversation({
-//         user: user,
-//         chatRoom: newMessage.chatRoomId,
-//         message: newMessage.newMessage,
-//       });
-//       io.emit('newMessage', {
-//         message: newMessage.newMessage,
-//         name: user.name,
-//         userId: socket.userId,
-//       });
-//       await message.save();
-//     }
-//   });
-// });
-
 io.on('connection', (socket) => {
   socket.on('join', ({ roomId }) => {
+    socket.roomId = roomId;
     socket.emit('message', {
       user: 'admin',
       text: `Welcome to the room ${socket.userName}`,
@@ -82,11 +60,17 @@ io.on('connection', (socket) => {
     socket.join(roomId);
   });
   socket.on('sendMessage', (message, callback) => {
-    io.to(roomId).emit('message', { user: socket.userName, text: message });
+    io.to(socket.roomId).emit('message', {
+      user: socket.userName,
+      text: message,
+    });
     callback();
   });
   socket.on('disconnect', () => {
-    console.log('user had left');
+    io.to(socket.roomId).emit('message', {
+      user: 'admin',
+      text: `${socket.userName} has left the chat`,
+    });
   });
 });
 

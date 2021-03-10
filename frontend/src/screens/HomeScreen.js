@@ -5,6 +5,7 @@ import FormContainer from '../components/FormContainer';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Loader from '../components/Loader';
+import '../css/HomeScreen.css';
 const HomeScreen = ({ history }) => {
   const user = JSON.parse(localStorage.getItem('userInfo'));
   if (!user) {
@@ -53,59 +54,64 @@ const HomeScreen = ({ history }) => {
     history.push('/login');
   };
   return user ? (
-    <FormContainer>
-      <h1>Welcome {user.name}</h1>
-      <Button
-        onClick={logoutHandler}
-        style={{
-          background: 'Crimson',
-          padding: '10px 20px',
-          margin: '10px 0px',
-        }}
-      >
-        Logout
-      </Button>
-      <Form onSubmit={submitCreateChatRoom}>
-        <Form.Group controlId="chatroom">
-          <Form.Label>Create Chatroom</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Chat Room Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Button type="submit" variant="primary">
-          Create Chat Room
+    <div className="outerContainer">
+      <div className="container">
+        <h1>Welcome {user.name}</h1>
+        <Button
+          onClick={logoutHandler}
+          style={{
+            background: 'Crimson',
+            padding: '10px 20px',
+            margin: '10px 0px',
+          }}
+        >
+          Logout
         </Button>
-        <ToastContainer />
-      </Form>
+        <Form onSubmit={submitCreateChatRoom}>
+          <Form.Group controlId="chatroom">
+            <Form.Label>Create Chatroom</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter Chat Room Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Button type="submit" variant="primary">
+            Create Chat Room
+          </Button>
+          <ToastContainer />
+        </Form>
 
-      <h1 style={{ marginTop: '20px' }}>Enter Chatroom</h1>
-      {getName ? (
-        getName.map((name) => (
-          <Link key={name._id} to={`/chatroom/${name._id}/`}>
-            <Button
-              variant="light"
-              className="btn-sm"
-              style={{
-                display: 'block',
-                padding: '10px',
-                paddingRight: '20px',
-                paddingLeft: '20px',
-                marginTop: '20px',
-                backgroundColor: 'Orchid',
-                color: 'white',
-              }}
-            >
-              {name.name}
-            </Button>
-          </Link>
-        ))
-      ) : (
-        <Loader />
-      )}
-    </FormContainer>
+        <h1 style={{ margin: '0px', padding: '0px', marginTop: '20px' }}>
+          Enter Chatroom
+        </h1>
+        <div style={{ display: 'flex', margin: '0px', padding: '0px' }}>
+          <div style={{ flexDirection: 'row', margin: '0px' }}>
+            {getName ? (
+              getName.map((name) => (
+                <Link key={name._id} to={`/chatroom/${name._id}/`}>
+                  <Button
+                    variant="light"
+                    className="btn-sm"
+                    style={{
+                      marginTop: '20px',
+                      backgroundColor: 'blue',
+                      color: 'white',
+                      padding: '15px',
+                    }}
+                  >
+                    {name.name}
+                  </Button>
+                </Link>
+              ))
+            ) : (
+              <Loader />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   ) : (
     <Loader />
   );
